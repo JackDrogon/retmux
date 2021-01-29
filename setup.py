@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 import glob
 setup(
-    name = 'retmux',
-    version = '1.0.0',
-    install_requires=[ ],
-    packages = find_packages(),
-    package_data={'tmuxbk':['conf/*.conf']},
+    name='retmux',
+    version='1.0.0',
+    install_requires=[],
+    packages=find_packages(),
+    package_data={'tmuxbk': ['conf/*.conf']},
     #data_files=[('conf',glob.glob('conf/*.*'))],
-    include_package_data= True,
+    include_package_data=True,
     zip_safe=False,
     scripts=['retmux'],
     author='Kai Yuan',
@@ -20,4 +20,3 @@ setup(
     A tmux session backup and reload tool
     """,
 )
-

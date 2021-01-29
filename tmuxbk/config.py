@@ -1,21 +1,20 @@
-from os import path 
+from os import path
 import os
 import shutil, sys
 import ConfigParser
 import log
 
-
-VERSION     = '1.0.2'                #software version
+VERSION = '1.0.2'  #software version
 #shell command separator
-CMD_SEP     = u'\x97'
+CMD_SEP = u'\x97'
 #the separator of tmux command output
-SEP         = ':=:'
-PKG_PATH    = path.dirname(__file__)
-APP_PATH    = path.join(PKG_PATH,"../")
-USER_PATH   = path.join(os.getenv("HOME") , ".retmux")
-SAMPLE_CONF = path.join(PKG_PATH, 'conf','default.conf')
+SEP = ':=:'
+PKG_PATH = path.dirname(__file__)
+APP_PATH = path.join(PKG_PATH, "../")
+USER_PATH = path.join(os.getenv("HOME"), ".retmux")
+SAMPLE_CONF = path.join(PKG_PATH, 'conf', 'default.conf')
 BACKUP_PATH = path.join(USER_PATH, "backup")
-CONF_FILE   = path.join(USER_PATH, "retmux.conf")
+CONF_FILE = path.join(USER_PATH, "retmux.conf")
 
 ######user config####
 WITH_CNT = None
@@ -31,33 +30,39 @@ def load_config():
         return True if sucessful, otherwise False
     """
     cf = ConfigParser.ConfigParser()
-    
+
     # if conf file doesn't exist, cp default conf there
     if not path.exists(CONF_FILE):
         init_config()
 
-    cf.read(CONF_FILE);
+    cf.read(CONF_FILE)
 
     #load options here
     try:
-        lvl_file = cf.get('settings','log.level.file')
-        lvl_console = cf.get('settings','log.level.console')
-        CNT_WITH_ESC = cf.getboolean('settings','content.with.escape')
+        lvl_file = cf.get('settings', 'log.level.file')
+        lvl_console = cf.get('settings', 'log.level.console')
+        CNT_WITH_ESC = cf.getboolean('settings', 'content.with.escape')
 
         if lvl_file.lower() not in log.LVL_DICT.keys():
-            log.print_warn("cannot load log.level.file config, use default: %s" % LOG_LVL_FILE)
+            log.print_warn(
+                "cannot load log.level.file config, use default: %s" %
+                LOG_LVL_FILE)
         else:
             LOG_LVL_FILE = lvl_file
 
         if lvl_console.lower() not in log.LVL_DICT.keys():
-            log.print_warn("cannot load log.level.console config, use default: %s" %LOG_LVL_CONSOLE)
+            log.print_warn(
+                "cannot load log.level.console config, use default: %s" %
+                LOG_LVL_CONSOLE)
         else:
             LOG_LVL_CONSOLE = lvl_console
     except:
 
-        log.print_warn('Error occured when loading config, using all default values')
+        log.print_warn(
+            'Error occured when loading config, using all default values')
         return False
-    return True;
+    return True
+
 
 def init_config():
     """
@@ -65,4 +70,4 @@ def init_config():
     """
     #mkdir and copy files
     os.makedirs(BACKUP_PATH)
-    shutil.copy(SAMPLE_CONF,CONF_FILE)
+    shutil.copy(SAMPLE_CONF, CONF_FILE)

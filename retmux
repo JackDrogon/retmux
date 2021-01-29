@@ -7,7 +7,6 @@ import tmuxbk.config as config
 import tmuxbk.util as util
 import logging
 import tmuxbk.log as log
-
 """
 the start script of retmux
 """
@@ -52,34 +51,37 @@ help_info = """ %(cyan)s
         Kai Yuan <kent.yuan(at)gmail.com> 
         Please report bugs at https://github.com/sk1418/retmux/issues
     """
+
+
 def usage():
     """print usage information"""
     print help_info % log.STYLE
+
 
 def version():
     """print version"""
     print 'retmux ' + config.VERSION
 
-actions = {
-        '-l'  : controller.show_and_action,
-        '-b'  : controller.do_backup,
-        '-d'  : controller.do_delete,
-        '-r'  : controller.do_restore,
-        '-ri'  : controller.interactive_restore,
-        '-h'  : usage,
-        '-v'  : version
-        }
 
+actions = {
+    '-l': controller.show_and_action,
+    '-b': controller.do_backup,
+    '-d': controller.do_delete,
+    '-r': controller.do_restore,
+    '-ri': controller.interactive_restore,
+    '-h': usage,
+    '-v': version
+}
 
 if __name__ == '__main__':
     #load config
     if not config.load_config():
         print "loading config failed"
-    
+
     log.setup_log(config.LOG_LVL_CONSOLE, config.LOG_LVL_FILE)
 
     #process user input options
-    if sys.argv.__len__() <2 or not sys.argv[1]:
+    if sys.argv.__len__() < 2 or not sys.argv[1]:
         usage()
         sys.exit(1)
     else:
@@ -88,8 +90,7 @@ if __name__ == '__main__':
         #backup or restore
         if sys.argv[1] in ('-b','-r','-l', '-d') \
                 and sys.argv.__len__() == 3 :
-                    func(sys.argv[2])
+            func(sys.argv[2])
         else:
             func() if func else usage()
             sys.exit(0)
-
