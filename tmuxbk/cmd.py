@@ -11,7 +11,7 @@ LOG = log.get_logger()
 
 ##list sessions
 
-CMD_LIST_SESSIONS    = config.CMD_SEP.join(['tmux', 'list-sessions', '-F#S:=:(#{session_width},#{session_height}):=:#{session_attached}'])
+CMD_LIST_SESSIONS    = config.CMD_SEP.join(['tmux', 'list-sessions', '-F#S:=:(#{window_width},#{window_height}):=:#{session_attached}'])
 #tmux list-panes -t {session}:{windowIdx}
 CMD_LIST_PANES       = config.CMD_SEP.join(['tmux','list-panes','-t%s:%s', '-F#{pane_index}:=:(#{pane_width},#{pane_height}):=:#{pane_current_path}:=:#{pane_active}'])
 CMD_CREATE_SESSION   = config.CMD_SEP.join(['tmux','new-session', '-d','-s%s','-x%d','-y%d'])
@@ -20,7 +20,7 @@ CMD_KILL_SESSION     = config.CMD_SEP.join(['tmux','kill-session', '-t%s'])
 CMD_CAPTURE_PANE     = config.CMD_SEP.join(['tmux','capture-pane','-%sp', '-S-100000', '-t%s'])
 CMD_SHOW_OPTION      = config.CMD_SEP.join(['tmux','show-options','-gv','%s'])
 CMD_HAS_SESSION      = config.CMD_SEP.join(['tmux','has-session','-t%s'])
-CMD_SET_PANE_PATH    = config.CMD_SEP.join(['tmux','send-keys','-t%s','cd \"%s\"\nclear\n'])
+CMD_SET_PANE_PATH    = config.CMD_SEP.join(['tmux','send-keys','-t%s','builtin cd \"%s\"\nclear\n'])
 CMD_CLEAR_PANE       = config.CMD_SEP.join(['tmux','clear-history', '-t%s'])
 CMD_LIST_WINDOWS     = config.CMD_SEP.join(['tmux','list-windows','-F#{window_index}:=:#{window_name}:=:#{window_active}:=:#{window_layout}','-t%s'])
 CMD_MOVE_WINDOW      = config.CMD_SEP.join(['tmux','move-window','-s%s','-t%s'])
@@ -69,13 +69,16 @@ def set_pane_path(pane_idstr, path):
     """ set pane path by 'send-key' and clear the screen"""
     #clear history
     cmdline = (CMD_CLEAR_PANE%(pane_idstr)).split(config.CMD_SEP)
+    # print(cmdline)
     util.exec_cmd(cmdline)
 
     cmdline = (CMD_SET_PANE_PATH % (pane_idstr,path)).split(config.CMD_SEP)
+    # print(cmdline)
     util.exec_cmd(cmdline)
 
     #clear history
     cmdline = (CMD_CLEAR_PANE%(pane_idstr)).split(config.CMD_SEP)
+    # print(cmdline)
     util.exec_cmd(cmdline)
 
 def capture_pane(pane_idstr,filename):
@@ -91,6 +94,7 @@ def capture_pane(pane_idstr,filename):
 def create_session(sess_name,size):
     p = (sess_name,size[0],size[1])
     cmd = (CMD_CREATE_SESSION % p).split(config.CMD_SEP)
+    # print(cmd)
     s = util.exec_cmd(cmd)
 
 def create_empty_window(sess_name, base_index):
@@ -101,16 +105,19 @@ def create_empty_window(sess_name, base_index):
 def split_window(sess_name, win_id, pane_min_id):
     p = (sess_name,int(win_id), int(pane_min_id))
     cmd = (CMD_SPLIT_WINDOW % p).split(config.CMD_SEP)
+    # print(cmd)
     util.exec_cmd(cmd)
 
 def active_window(sess_name, win_id):
     p = (sess_name,win_id)
     cmd = (CMD_ACTIVE_WINDOW% p).split(config.CMD_SEP)
+    # print(cmd)
     util.exec_cmd(cmd)
 
 def select_layout(sess_name, win_id, layout):
     p = (sess_name,win_id,layout)
     cmd = (CMD_SET_LAYOUT% p).split(config.CMD_SEP)
+    # print(cmd)
     util.exec_cmd(cmd)
 
 def rename_window(sess_name, win_id, name):
@@ -119,6 +126,7 @@ def rename_window(sess_name, win_id, name):
     """
     p = (sess_name, win_id, name)
     cmd = (CMD_RENAME_WINDOW % p).split(config.CMD_SEP)
+    # print(cmd)
     util.exec_cmd(cmd)
 
 def renumber_window(sess_name, win_id_from, win_id_to):
@@ -129,6 +137,7 @@ def renumber_window(sess_name, win_id_from, win_id_to):
         sess_name + ':' + str(win_id_to))
 
     cmd = (CMD_MOVE_WINDOW % p).split(config.CMD_SEP)
+    # print(cmd)
     util.exec_cmd(cmd)
 
 def get_option(option):
@@ -151,4 +160,5 @@ def restore_pane_content(pane_idstr,filename):
     #put filename in quote, in case there is space, tab etc.
     filename = '"' + filename + '"'
     cmd = (CMD_LOAD_CONTENT %  (pane_idstr,filename)).split(config.CMD_SEP)
+    # print(cmd)
     util.exec_cmd(cmd)
