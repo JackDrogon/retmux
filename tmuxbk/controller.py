@@ -25,7 +25,6 @@ def list_all_sessions():
             )
             sys.exit()
         l.sort(reverse=True)
-        print(l)
 
         i = 1
         for tmux_id in l:
