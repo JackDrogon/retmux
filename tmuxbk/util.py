@@ -68,7 +68,7 @@ def exec_cmd(cmd):
     """execute a shell command
     the cmd argument is a list
     return the output with the last linebreak '\n' removed"""
-    s = subprocess.check_output(cmd)
+    s = subprocess.check_output(cmd).decode('utf-8')
     if s:
         s = re.sub('\n$', '', s)
     return s
