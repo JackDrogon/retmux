@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 import subprocess
 import re
-import util
-import log
-import config
+from . import util
+from . import log
+from . import config
 
 LOG = log.get_logger()
 
@@ -44,7 +44,7 @@ def get_sessions():
     """
     cmd = CMD_LIST_SESSIONS.split(config.CMD_SEP)
     s = util.exec_cmd(cmd)
-    return s.split('\n')
+    return s.decode().split('\n')
 
 def get_windows_from_session(sess_name):
     """
@@ -54,7 +54,7 @@ def get_windows_from_session(sess_name):
     """
     cmd = (CMD_LIST_WINDOWS % sess_name).split(config.CMD_SEP)
     s = util.exec_cmd(cmd)
-    return s.split('\n')
+    return s.decode().split('\n')
     
 def get_panes_from_sess_win(sess_name,win_idx):
     """return list of result string
@@ -63,7 +63,7 @@ def get_panes_from_sess_win(sess_name,win_idx):
     p = (sess_name,win_idx)
     cmd = (CMD_LIST_PANES % p).split(config.CMD_SEP)
     s = util.exec_cmd(cmd)
-    return s.split('\n')
+    return s.decode().split('\n')
 
 def set_pane_path(pane_idstr, path):
     """ set pane path by 'send-key' and clear the screen"""
