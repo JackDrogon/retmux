@@ -11,7 +11,7 @@ import tmuxbk.log as log
 the start script of retmux
 """
 
-help_info = """ %(cyan)s
+help_info = r""" %(cyan)s
                   __
        ________  / /_____ ___  __  ___  __
       / ___/ _ \/ __/ __ `__ \/ / / / |/_/
@@ -20,10 +20,10 @@ help_info = """ %(cyan)s
 
             - A tmux backup/reload tool %(clear)s
 
-    [%(bold)sUSAGE%(clear)s] 
-        retmux [OPTIONS] 
+    [%(bold)sUSAGE%(clear)s]
+        retmux [OPTIONS]
 
-    [%(bold)sOPTIONS%(clear)s] 
+    [%(bold)sOPTIONS%(clear)s]
         %(bold)s-h%(clear)s print help message
 
         %(bold)s-v%(clear)s version
@@ -47,8 +47,8 @@ help_info = """ %(cyan)s
         %(bold)s-ri%(clear)s       : restore sessions interactively
         config file: $HOME/.retmux/retmux.conf
 
-    [%(bold)sAUTHOR%(clear)s] 
-        Kai Yuan <kent.yuan(at)gmail.com> 
+    [%(bold)sAUTHOR%(clear)s]
+        Kai Yuan <kent.yuan(at)gmail.com>
         Please report bugs at https://github.com/sk1418/retmux/issues
     """
 
